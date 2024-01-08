@@ -5,9 +5,29 @@ import { PublicEventHandler } from '../../util/events.js'
 import { type Packet } from '../../util/packet.js'
 import { type AsyncVoid } from '../../util/types.js'
 
+type i64 = [number, number]
+
+interface ClientChatMessage {
+  message: string
+  timestamp: i64
+  salt: i64
+  signature: Uint8Array | undefined
+  offset: number
+  acknowledged: Uint8Array
+}
+
+interface ClientChatCommand {
+  command: string
+  timestamp: i64
+  salt: i64
+  argumentSignatures: Uint8Array[]
+  messageCount: number
+  acknowledged: Uint8Array
+}
+
 interface ClientEventMap {
-  message: (packet: Packet) => AsyncVoid
-  command: (packet: Packet) => AsyncVoid
+  message: (packet: Packet<ClientChatMessage>) => AsyncVoid
+  command: (packet: Packet<ClientChatCommand>) => AsyncVoid
 }
 
 // TODO: Make server messages cancelable
@@ -25,11 +45,11 @@ export class Chat {
 
   constructor () {
     proxy.client.on('chat_message', async packet => {
-      await this.client.emit('message', packet)
+      await this.client.emit('message', packet as Packet<ClientChatMessage>)
     })
 
     proxy.client.on('chat_command', async packet => {
-      await this.client.emit('command', packet)
+      await this.client.emit('command', packet as Packet<ClientChatCommand>)
     })
 
     channel.subscribe(message => {
