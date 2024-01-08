@@ -9,10 +9,30 @@ This is an [MMP](https://github.com/DinheroDevelopmentGroup/modular-minecraft-pr
 
 ## Implements
 
-- [x] S2C System Chat  Packet Parsing
-- [x] S2C Player Chat  Packet Parsing
-- [x] C2S Chat Command Packet Parsing
-- [x] C2S Chat Message Packet Parsing
-- [x] C2S Chat (via `client.chat`)
-- [x] S2C System Chat
-- [ ] S2C Player Chat
+### S2C
+
+#### System
+
+- [x] Reading
+- [x] Writing
+- [ ] Manipulation
+
+#### Player
+
+- [x] Reading
+- [ ] Writing
+- [ ] Manipulation
+
+### C2S
+
+#### Command
+
+- [x] Reading
+- [x] Writing (via `client.chat`)
+- [x] Manipulation (unsigned)
+
+#### Message
+
+- [x] Reading
+- [x] Writing (via `client.chat`)
+- [x] Manipulation (unsigned)
