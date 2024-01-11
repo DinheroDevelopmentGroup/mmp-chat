@@ -1,5 +1,5 @@
 import type Instance from '../../instance/index.js'
-import { type LocalMessage, type GlobalMessage } from './shared.js'
+import { type LocalMessage, type GlobalMessage, type ServerPlayerMessage } from './shared.js'
 
 export default async function (instance: Instance): Promise<void> {
   const channel = instance.createChannel<GlobalMessage, LocalMessage>('chat')
@@ -9,7 +9,8 @@ export default async function (instance: Instance): Promise<void> {
   server.on('playerChat', data => {
     channel.write({
       type: 'player',
-      message: data
+      // see https://github.com/PrismarineJS/node-minecraft-protocol/issues/1281
+      message: data as unknown as ServerPlayerMessage
     })
   })
 
